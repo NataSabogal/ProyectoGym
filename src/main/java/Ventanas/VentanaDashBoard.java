@@ -27,19 +27,21 @@ public class VentanaDashBoard extends javax.swing.JFrame {
     private void initComponents() {
 
         jSpinner1 = new javax.swing.JSpinner();
+        jSeparator1 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         btnGestionClienteEntre = new javax.swing.JButton();
         btnControlAsistencia = new javax.swing.JButton();
         btnAdminPagos = new javax.swing.JButton();
         btnAsigEntre = new javax.swing.JButton();
         btnPlanesMembresia = new javax.swing.JButton();
+        btngestionEntrenadores = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DashBoard", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Shree Devanagari 714", 0, 18))); // NOI18N
 
-        btnGestionClienteEntre.setText("Gestión de clientes y entrenadores");
+        btnGestionClienteEntre.setText("Gestion Clientes");
         btnGestionClienteEntre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGestionClienteEntreActionPerformed(evt);
@@ -60,7 +62,7 @@ public class VentanaDashBoard extends javax.swing.JFrame {
             }
         });
 
-        btnAsigEntre.setText("Asig de Entrenadores");
+        btnAsigEntre.setText("Asignación Clases Grupales ");
         btnAsigEntre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAsigEntreActionPerformed(evt);
@@ -71,6 +73,13 @@ public class VentanaDashBoard extends javax.swing.JFrame {
         btnPlanesMembresia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPlanesMembresiaActionPerformed(evt);
+            }
+        });
+
+        btngestionEntrenadores.setText("Gestion Entrenadores");
+        btngestionEntrenadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngestionEntrenadoresActionPerformed(evt);
             }
         });
 
@@ -85,23 +94,26 @@ public class VentanaDashBoard extends javax.swing.JFrame {
                     .addComponent(btnAdminPagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnControlAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPlanesMembresia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGestionClienteEntre, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
+                    .addComponent(btnGestionClienteEntre, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                    .addComponent(btngestionEntrenadores, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnGestionClienteEntre, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGestionClienteEntre, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btngestionEntrenadores, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(btnPlanesMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnPlanesMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addComponent(btnControlAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnControlAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAdminPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAdminPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAsigEntre, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(btnAsigEntre, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -123,7 +135,7 @@ public class VentanaDashBoard extends javax.swing.JFrame {
 
     private void btnGestionClienteEntreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionClienteEntreActionPerformed
         // TODO add your handling code here:
-        VentanaRegistro gestionCliEntr = new VentanaRegistro();
+        VentanaRegistroCliente gestionCliEntr = new VentanaRegistroCliente();
         gestionCliEntr.setVisible(true);
         gestionCliEntr.setLocationRelativeTo(null);
         this.dispose();
@@ -144,7 +156,7 @@ public class VentanaDashBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdminPagosActionPerformed
 
     private void btnAsigEntreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsigEntreActionPerformed
-        VentanaGestionEntrenadores gestionEntre = new VentanaGestionEntrenadores();
+        VentanaAsignacionClasesGrupales gestionEntre = new VentanaAsignacionClasesGrupales();
         gestionEntre.setVisible(true);
         gestionEntre.setLocationRelativeTo(null);
         this.dispose();
@@ -156,6 +168,14 @@ public class VentanaDashBoard extends javax.swing.JFrame {
        mem.setLocationRelativeTo(null);
        this.dispose();
     }//GEN-LAST:event_btnPlanesMembresiaActionPerformed
+
+    private void btngestionEntrenadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngestionEntrenadoresActionPerformed
+        VentanaRegistroEntrenadores entrenadores = new VentanaRegistroEntrenadores();
+        entrenadores.setVisible(true);
+        entrenadores.setLocationRelativeTo(null);
+        this.dispose();
+
+    }//GEN-LAST:event_btngestionEntrenadoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,7 +219,9 @@ public class VentanaDashBoard extends javax.swing.JFrame {
     private javax.swing.JButton btnControlAsistencia;
     private javax.swing.JButton btnGestionClienteEntre;
     private javax.swing.JButton btnPlanesMembresia;
+    private javax.swing.JButton btngestionEntrenadores;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner jSpinner1;
     // End of variables declaration//GEN-END:variables
 }
