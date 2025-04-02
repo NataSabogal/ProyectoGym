@@ -181,6 +181,13 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    public void limpiarCampos(){
+        txtBuscar.setText("");
+        txtFechaUltimoPago.setText("");
+        txtMontoPagar.setText("");
+        txtNombreC.setText("");
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
