@@ -4,7 +4,9 @@
  */
 package Ventanas;
 
+import Services.AdminService;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -162,10 +164,18 @@ public class VentanaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInciarSesionActionPerformed
-        VentanaDashBoard dashB = new VentanaDashBoard();
-        dashB.setVisible(true);
-        dashB.setLocationRelativeTo(null);
-        this.dispose();
+        String cedula = txtCedula.getText();
+        String contrasenia = new String(txtContraseña.getPassword());
+
+        AdminService adminService = new AdminService();
+
+        if (adminService.login(cedula, contrasenia)) {
+            JOptionPane.showMessageDialog(null , "BIENVENIDO");
+            new VentanaDashBoard().setVisible(true); 
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Cédula o contraseña incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnInciarSesionActionPerformed
 
     private void txtCedulaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCedulaMousePressed

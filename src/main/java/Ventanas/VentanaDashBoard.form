@@ -4,6 +4,8 @@
   <NonVisualComponents>
     <Component class="javax.swing.JSpinner" name="jSpinner1">
     </Component>
+    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -66,6 +68,7 @@
                       <Component id="btnControlAsistencia" max="32767" attributes="0"/>
                       <Component id="btnPlanesMembresia" max="32767" attributes="0"/>
                       <Component id="btnGestionClienteEntre" pref="242" max="32767" attributes="0"/>
+                      <Component id="btngestionEntrenadores" alignment="0" pref="242" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="71" max="32767" attributes="0"/>
               </Group>
@@ -75,16 +78,18 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnGestionClienteEntre" min="-2" pref="54" max="-2" attributes="0"/>
+                  <Component id="btnGestionClienteEntre" min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="btngestionEntrenadores" min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <Component id="btnPlanesMembresia" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnPlanesMembresia" min="-2" pref="52" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                  <Component id="btnControlAsistencia" min="-2" pref="47" max="-2" attributes="0"/>
+                  <Component id="btnControlAsistencia" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnAdminPagos" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Component id="btnAdminPagos" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnAsigEntre" min="-2" pref="55" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <Component id="btnAsigEntre" min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -92,7 +97,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnGestionClienteEntre">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de clientes y entrenadores"/>
+            <Property name="text" type="java.lang.String" value="Gestion Clientes"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGestionClienteEntreActionPerformed"/>
@@ -116,7 +121,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAsigEntre">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Asig de Entrenadores"/>
+            <Property name="text" type="java.lang.String" value="Asignaci&#xf3;n Clases Grupales "/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsigEntreActionPerformed"/>
@@ -128,6 +133,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPlanesMembresiaActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btngestionEntrenadores">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Gestion Entrenadores"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btngestionEntrenadoresActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
