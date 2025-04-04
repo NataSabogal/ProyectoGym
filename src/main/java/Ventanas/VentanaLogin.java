@@ -19,6 +19,7 @@ public class VentanaLogin extends javax.swing.JFrame {
      */
     public VentanaLogin() {
         initComponents();
+        setLocationRelativeTo(this);
     }
 
     /**
@@ -170,7 +171,6 @@ public class VentanaLogin extends javax.swing.JFrame {
         AdminService adminService = new AdminService();
 
         if (adminService.login(cedula, contrasenia)) {
-            JOptionPane.showMessageDialog(null , "BIENVENIDO");
             new VentanaDashBoard().setVisible(true); 
             this.dispose();
         } else {

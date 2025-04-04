@@ -4,6 +4,10 @@
  */
 package Ventanas;
 
+import Controllers.EntrenadorController;
+import DTO.EntrenadorDTO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author nataliasabogalrada
@@ -13,8 +17,11 @@ public class VentanaRegistroEntrenadores extends javax.swing.JFrame {
     /**
      * Creates new form VentanaRegistroEntrenadores
      */
+    private EntrenadorController entrenadorController;
+
     public VentanaRegistroEntrenadores() {
         initComponents();
+        entrenadorController = new EntrenadorController();
     }
 
     /**
@@ -73,6 +80,11 @@ public class VentanaRegistroEntrenadores extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +94,11 @@ public class VentanaRegistroEntrenadores extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Editar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -181,13 +198,73 @@ public class VentanaRegistroEntrenadores extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasRegistroActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        String cedula = txtCedula.getText();
+        String nombre = txtNombre.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+
+        boolean registrado = entrenadorController.registrarEntrenador(cedula, nombre, correo, telefono);
+
+        if (registrado) {
+            JOptionPane.showMessageDialog(this, "Entrenador registrado con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar el entrenador.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        
+        String cedula = txtCedula.getText();
+        EntrenadorDTO entrenador = entrenadorController.buscarEntrenador(cedula);
+
+        if (entrenador != null) {
+            txtNombre.setText(entrenador.getNombre());
+            txtCorreo.setText(entrenador.getCorreo());
+            txtTelefono.setText(entrenador.getTelefono());
+            JOptionPane.showMessageDialog(this, "Entrenador encontrado.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Entrenador no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        String cedula = txtCedula.getText();
+        String nombre = txtNombre.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+
+        boolean actualizado = entrenadorController.actualizarEntrenador(cedula, nombre, correo, telefono);
+
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Entrenador actualizado con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el entrenador.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        String cedula = txtCedula.getText();
+        String nombre = txtNombre.getText();
+        String email = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+
+        boolean actualizado = entrenadorController.actualizarEntrenador(cedula, nombre, email, telefono);
+
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Entrenador actualizado con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el entrenador.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    public void limpiarCampos (){
+        txtCedula.setText("");
+        txtCorreo.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
+    }
     /**
      * @param args the command line arguments
      */

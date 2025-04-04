@@ -4,17 +4,33 @@
  */
 package Ventanas;
 
+import Controllers.ClienteController;
+import Controllers.PlanMembresiaController;
+import Controllers.adminPagoController;
+import DTO.ClienteDTO;
+import DTO.PlanMembresiaDTO;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author nataliasabogalrada
  */
 public class VentanaAdminPagos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentanaAdminPagos
-     */
+    adminPagoController adPagoController;
+    private PlanMembresiaController planMembresiaController;
+    private ClienteController clienteController;
+    private ClienteDTO clienteBuscar;
+    
     public VentanaAdminPagos() {
         initComponents();
+        adPagoController = new adminPagoController();
+        planMembresiaController = new PlanMembresiaController();
+        clienteController = new ClienteController();
+        this.cargarPlanesEnComboBox();
+        clienteBuscar = new ClienteDTO();
     }
 
     /**
@@ -30,7 +46,6 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
         btnAtrasAdminPagos = new javax.swing.JButton();
         txtNombreC = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        cmb = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtFechaUltimoPago = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -40,6 +55,7 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
         btnRegistrarPago = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        cmb = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,8 +73,6 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel3.setText("Plan de Membresía:");
-
-        cmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", " ", " ", " " }));
 
         jLabel4.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel4.setText("Fecha del Último Pago:");
@@ -81,9 +95,21 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
         jLabel1.setText("Buscar Cliente:");
 
         btnRegistrarPago.setText("Registrar Pago");
+        btnRegistrarPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarPagoActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel2.setText("Nombre del Cliente:");
+
+        cmb.setToolTipText("");
+        cmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,9 +129,9 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
                                 .addGap(37, 37, 37)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtNombreC)
-                                    .addComponent(cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtFechaUltimoPago)
-                                    .addComponent(txtMontoPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtMontoPagar, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                                    .addComponent(cmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(118, 118, 118)
                                 .addComponent(btnRegistrarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -114,7 +140,7 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(39, 39, 39)
                         .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAtrasAdminPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -175,12 +201,58 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasAdminPagosActionPerformed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        // TODO add your handling code here:
+       String cedula = txtBuscar.getText();
+        this.clienteBuscar = adPagoController.obtenerClientePorCedula(cedula);
+        if (this.clienteBuscar != null) {
+            txtNombreC.setText(this.clienteBuscar.getNombre());
+             PlanMembresiaDTO planMembresia = planMembresiaController.buscarPlanPorId(this.clienteBuscar.getPlanId());
+             cmb.getModel().setSelectedItem(planMembresia.getNombre());
+             txtFechaUltimoPago.setText(this.clienteBuscar.getFechaPago().toString());
+             txtMontoPagar.setText(String.format("%.2f", planMembresia.getPrecio()));
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún cliente con la cédula: " + cedula, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
+
+    private void btnRegistrarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPagoActionPerformed
+
+          double montoPagar = Double.parseDouble(txtMontoPagar.getText().replace(",","."));
+          java.sql.Date sqlDate = new java.sql.Date(new Date().getTime());
+          
+          ClienteDTO clienteActualizar = this.clienteBuscar;
+          clienteActualizar.setFechaPago(sqlDate);
+          clienteActualizar.setMontoPago(montoPagar);
+          System.out.println("---> cliente a actualizar: "+clienteActualizar);
+          boolean actualizado = clienteController.actualizarCliente(clienteActualizar);
+
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Se ha registrado el pago con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar pago", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+          
+        
+        
+    }//GEN-LAST:event_btnRegistrarPagoActionPerformed
+
+    private void cmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    
+ 
+    
+    public void limpiarCampos(){
+        txtBuscar.setText("");
+        txtFechaUltimoPago.setText("");
+        txtMontoPagar.setText("");
+        txtNombreC.setText("");
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -212,6 +284,19 @@ public class VentanaAdminPagos extends javax.swing.JFrame {
                 new VentanaAdminPagos().setVisible(true);
             }
         });
+    }
+    
+    private void cargarPlanesEnComboBox() {
+        cmb.removeAllItems();
+        List<PlanMembresiaDTO> listaPlanes = planMembresiaController.obtenerTodosPlanes();
+        if (listaPlanes != null && !listaPlanes.isEmpty()) {
+            cmb.addItem("Seleccionar");
+            for (PlanMembresiaDTO plan : listaPlanes) {
+                cmb.addItem(plan.getNombre());
+            }
+        } else {
+            cmb.addItem("No hay planes disponibles");
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

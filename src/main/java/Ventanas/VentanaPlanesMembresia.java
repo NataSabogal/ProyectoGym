@@ -4,6 +4,10 @@
  */
 package Ventanas;
 
+import Controllers.PlanMembresiaController;
+import DTO.PlanMembresiaDTO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author bran-
@@ -13,9 +17,12 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
     /**
      * Creates new form VentanaPlanesMembresia
      */
+    private PlanMembresiaController planMembresiaController;
+
     public VentanaPlanesMembresia() {
         initComponents();
         this.setBounds(500, 500, 500, 500);
+        planMembresiaController = new PlanMembresiaController();
     }
 
     /**
@@ -32,14 +39,14 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
         txtValorPlanes = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
         btnAgregarPlanes = new javax.swing.JButton();
-        btnModificarPlan = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         btnEliminarPlan = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
         txtDuracion = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         btnAtrasControlAsistencia = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -58,10 +65,25 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
         });
 
         btnAgregarPlanes.setText("Agregar Plan");
+        btnAgregarPlanes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPlanesActionPerformed(evt);
+            }
+        });
 
-        btnModificarPlan.setText("Editar Plan");
+        btnEditar.setText("Editar Plan");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminarPlan.setText("Eliminar Plan");
+        btnEliminarPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarPlanActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel1.setText("Precio:");
@@ -69,7 +91,12 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel2.setText("Duración:");
 
-        jButton1.setText("Buscar Plan");
+        btnBuscar.setText("Buscar Plan");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnAtrasControlAsistencia.setText("⤺");
         btnAtrasControlAsistencia.addActionListener(new java.awt.event.ActionListener() {
@@ -99,24 +126,23 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
                 .addGap(89, 89, 89))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnModificarPlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnAtrasControlAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAtrasControlAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAgregarPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(btnAtrasControlAsistencia)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTipoPlan)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -137,12 +163,12 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
                             .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(34, 34, 34)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarPlanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModificarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
 
@@ -172,13 +198,73 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAtrasControlAsistenciaActionPerformed
 
+    private void btnAgregarPlanesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPlanesActionPerformed
+        String nombre = txtNombre.getText();
+        String descripcion = txtDescripcion.getText();
+        double precio = Double.parseDouble(txtPrecio.getText());
+        int duracion = Integer.parseInt(txtDuracion.getText());
+        boolean registrado = planMembresiaController.crearPlanMembresia(nombre, descripcion, precio, duracion);
+        if (registrado) {
+            JOptionPane.showMessageDialog(this, "Plan de membresía registrado");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar el plan.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAgregarPlanesActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String nombre = txtNombre.getText();
+        PlanMembresiaDTO plan = planMembresiaController.buscarPlan(nombre);
+        if (plan != null) {
+            txtDescripcion.setText(plan.getDescripcion());
+            txtPrecio.setText(String.valueOf(plan.getPrecio()));
+            txtDuracion.setText(String.valueOf(plan.getDuracion()));
+            JOptionPane.showMessageDialog(this, "Plan encontrado");
+        } else {
+            JOptionPane.showMessageDialog(this, "Plan no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        String nombre = txtNombre.getText();
+        String descripcion = txtDescripcion.getText();
+        double precio = Double.parseDouble(txtPrecio.getText());
+        int duracion = Integer.parseInt(txtDuracion.getText());
+        boolean actualizado = planMembresiaController.actualizarPlan(nombre, descripcion, precio, duracion);
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Plan de membresía actualizado ");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el plan", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPlanActionPerformed
+         String nombre = txtNombre.getText();
+        boolean eliminado = planMembresiaController.eliminarPlan(nombre);
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "Plan eliminado con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el plan.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarPlanActionPerformed
+
+    public void limpiarCampos (){
+        txtDescripcion.setText("");
+        txtDuracion.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        txtTipoPlan.setText("");
+        txtValorPlanes.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPlanes;
     private javax.swing.JButton btnAtrasControlAsistencia;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminarPlan;
-    private javax.swing.JButton btnModificarPlan;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

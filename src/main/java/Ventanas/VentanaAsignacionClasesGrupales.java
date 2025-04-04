@@ -4,17 +4,36 @@
  */
 package Ventanas;
 
+import Controllers.ClaseController;
+import Controllers.EntrenadorController;
+import DTO.ClaseDTO;
+import DTO.EntrenadorDTO;
+import java.sql.Date;
+import java.time.LocalTime;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author bran-
  */
 public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
-
+    
+    private ClaseController controladorClase;
+    private EntrenadorController controlador;
+    
+    
+    
     /**
      * Creates new form VentanaGestionEntrenadores
      */
     public VentanaAsignacionClasesGrupales() {
+        
         initComponents();
+        controladorClase = new ClaseController();
+        this.cargarHorasComboBox();
+        controlador = new EntrenadorController();
+       this.cargarEntrenadoresEnComboBox();
     }
 
     /**
@@ -31,12 +50,12 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
         txtNombreGestionEntrenadores = new javax.swing.JLabel();
         txtEspecialidadGestionEntrenadores = new javax.swing.JLabel();
         txtNombreClase = new javax.swing.JTextField();
-        btnEliminarGestionEntrenadores = new javax.swing.JButton();
+        btnAsignarClaseGrupal = new javax.swing.JButton();
         btnAtrasAdminPagos = new javax.swing.JButton();
         cmbEntrenador = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        txtFechaClase = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        CALENDARIO = new com.toedter.calendar.JDateChooser();
         cmbHora = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,10 +69,10 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
         txtEspecialidadGestionEntrenadores.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         txtEspecialidadGestionEntrenadores.setText("Entrenador:");
 
-        btnEliminarGestionEntrenadores.setText("Asignar Entrenador");
-        btnEliminarGestionEntrenadores.addActionListener(new java.awt.event.ActionListener() {
+        btnAsignarClaseGrupal.setText("Asignar Entrenador");
+        btnAsignarClaseGrupal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarGestionEntrenadoresActionPerformed(evt);
+                btnAsignarClaseGrupalActionPerformed(evt);
             }
         });
 
@@ -64,15 +83,17 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
             }
         });
 
-        cmbEntrenador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", " ", " " }));
+        cmbEntrenador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEntrenadorActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel1.setText("Fecha de la Clase:");
 
         jLabel2.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel2.setText("Hora de la Clase:");
-
-        cmbHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", " " }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -92,13 +113,12 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(36, 36, 36)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cmbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtFechaClase, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                                .addComponent(txtNombreClase))))
-                    .addComponent(btnEliminarGestionEntrenadores, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 104, Short.MAX_VALUE))
+                            .addComponent(txtNombreClase)
+                            .addComponent(cmbEntrenador, 0, 121, Short.MAX_VALUE)
+                            .addComponent(CALENDARIO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbHora, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnAsignarClaseGrupal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(104, 104, 104))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,17 +133,20 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEspecialidadGestionEntrenadores)
                     .addComponent(cmbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtFechaClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cmbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addComponent(btnEliminarGestionEntrenadores, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(cmbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addComponent(btnAsignarClaseGrupal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(CALENDARIO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -153,9 +176,24 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEliminarGestionEntrenadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarGestionEntrenadoresActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarGestionEntrenadoresActionPerformed
+    private void btnAsignarClaseGrupalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarClaseGrupalActionPerformed
+        
+        String nombreClase = txtNombreClase.getText();
+        String entrenador  = (String) cmbEntrenador.getSelectedItem();
+        Date fechaClase = (Date) CALENDARIO.getDate();
+        String horaClase = (String) cmbHora.getSelectedItem();
+        
+        ClaseDTO clase = new ClaseDTO(0, nombreClase, entrenador, fechaClase, horaClase);
+        
+        boolean registrado = controladorClase.registrarClase(clase);
+        if (registrado) {
+            JOptionPane.showMessageDialog(this, "Clase registrada con éxito.");
+//            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar la clase.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btnAsignarClaseGrupalActionPerformed
 
     private void btnAtrasAdminPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasAdminPagosActionPerformed
         VentanaDashBoard panel = new VentanaDashBoard();
@@ -164,9 +202,37 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAtrasAdminPagosActionPerformed
 
+    private void cmbEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEntrenadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbEntrenadorActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void cargarHorasComboBox(){
+        cmbHora.removeAllItems();
+        int horasAlDia = 12; // son 12 horas de clase
+        int horaInicio = 7; //inicia a las 7am
+        for (int i = horaInicio; i <= (horasAlDia+horaInicio); i++) {
+            LocalTime localTime = LocalTime.of(i, 0);
+            cmbHora.addItem(localTime.toString());
+        }
+    }
+  
+
+    private void cargarEntrenadoresEnComboBox() { // Esta trayendo String y no el objeto
+        cmbEntrenador.removeAllItems();
+        List<EntrenadorDTO> listaEntrenadores = controlador.obtenerListaEntrenadores();
+        if (listaEntrenadores != null && !listaEntrenadores.isEmpty()) {
+            cmbEntrenador.addItem("Seleccionar");
+            for (EntrenadorDTO entrenador : listaEntrenadores) {
+                cmbEntrenador.addItem(entrenador.getNombre());
+            }
+        } else {
+            cmbEntrenador.addItem("No hay Entrenadores disponibles");
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -203,8 +269,9 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser CALENDARIO;
+    private javax.swing.JButton btnAsignarClaseGrupal;
     private javax.swing.JButton btnAtrasAdminPagos;
-    private javax.swing.JButton btnEliminarGestionEntrenadores;
     private javax.swing.JComboBox<String> cmbEntrenador;
     private javax.swing.JComboBox<String> cmbHora;
     private javax.swing.JLabel jLabel1;
@@ -212,7 +279,6 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel txtEspecialidadGestionEntrenadores;
-    private javax.swing.JTextField txtFechaClase;
     private javax.swing.JTextField txtNombreClase;
     private javax.swing.JLabel txtNombreGestionEntrenadores;
     // End of variables declaration//GEN-END:variables
