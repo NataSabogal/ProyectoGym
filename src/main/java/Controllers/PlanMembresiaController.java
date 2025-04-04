@@ -29,6 +29,10 @@ public class PlanMembresiaController {
     public PlanMembresiaDTO buscarPlan(String nombre) {
         return planMembresiaService.buscarPlan(nombre);
     }
+    
+    public PlanMembresiaDTO buscarPlanPorId(Integer idPlan) {
+        return planMembresiaService.buscarPlanPorId(idPlan);
+    }
 
     public boolean actualizarPlan(String nombre, String descripcion, double precio, int duracion) {
         PlanMembresiaDTO plan = new PlanMembresiaDTO(nombre, descripcion, precio, duracion);

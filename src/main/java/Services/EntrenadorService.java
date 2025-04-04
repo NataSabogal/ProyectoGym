@@ -6,6 +6,7 @@ package Services;
 
 import DTO.EntrenadorDTO;
 import Repository.EntrenadorRepository;
+import java.util.List;
 
 /**
  *
@@ -37,5 +38,9 @@ public class EntrenadorService {
 
     public boolean eliminarEntrenador(String cedula) {
         return entrenadorRepository.eliminarEntrenador(cedula);
+    }
+    
+     public List<EntrenadorDTO> obtenerTodosEntrenadores() {
+        return entrenadorRepository.obtenerTodosEntrenadores();
     }
 }

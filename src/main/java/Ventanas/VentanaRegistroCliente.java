@@ -9,10 +9,14 @@ import Controllers.PlanMembresiaController;
 import DTO.ClienteDTO;
 import DTO.PlanMembresiaDTO;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -25,13 +29,14 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
      */
     private ClienteController clienteController;
     private PlanMembresiaController planMembresiaController;
+    private ClienteDTO clienteBuscar;
 
     public VentanaRegistroCliente() {
         initComponents();
         clienteController = new ClienteController();
         planMembresiaController = new PlanMembresiaController();
-        comboBoxPlanes = new JComboBox<>();
-        cargarPlanesEnComboBox();
+        this.cargarPlanesEnComboBox();
+        clienteBuscar = new ClienteDTO();
     }
 
     /**
@@ -43,6 +48,7 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel1 = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -58,11 +64,11 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
         btnAtrasRegistro = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
-        comboBoxPlanes = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        txtFechaPago = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtMontoPago = new javax.swing.JTextField();
+        cbx = new javax.swing.JComboBox<>();
+        jDateFechaPago = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,13 +125,17 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel5.setText("Telefono:");
 
-        comboBoxPlanes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar" }));
-
         jLabel6.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel6.setText("Fecha de Pago:");
 
         jLabel7.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
         jLabel7.setText("Monto de Pago:");
+
+        cbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,33 +159,28 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMontoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtCedula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(comboBoxPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(54, 54, 54)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(txtMontoPago, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(txtNombre)
+                            .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -205,15 +210,15 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
                         .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(txtMontoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                        .addComponent(jDateFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(txtMontoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAgregar)
                             .addComponent(btnBuscar))
@@ -243,23 +248,36 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
         String correo = txtCorreo.getText();
         String telefono = txtTelefono.getText();
         String cedula = txtCedula.getText();
-        String fechaPago = txtFechaPago.getText();
+        java.util.Date fechaUtil = jDateFechaPago.getDate();
+        java.sql.Date fechaPago = (fechaUtil != null) ? new java.sql.Date(fechaUtil.getTime()) : null;
+
         String montoPago = txtMontoPago.getText();
-        String planSeleccionado = (String) comboBoxPlanes.getSelectedItem();
+        String planSeleccionado = (String) cbx.getSelectedItem();
 
         if (planSeleccionado != null && !planSeleccionado.equals("Seleccionar")) {
             PlanMembresiaDTO planSeleccionadoDTO = planMembresiaController.buscarPlan(planSeleccionado);
 
-            if (nombre.isEmpty() || correo.isEmpty() || telefono.isEmpty() || cedula.isEmpty() || fechaPago.isEmpty() || montoPago.isEmpty()) {
+            if (nombre.isEmpty() || correo.isEmpty() || telefono.isEmpty() || cedula.isEmpty() || montoPago.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
                 return;
             }
-            ClienteDTO cliente = new ClienteDTO(0, cedula, nombre, correo, telefono, planSeleccionadoDTO.getId(), Date.valueOf(LocalDate.MAX).valueOf(LocalDate.MAX).valueOf(fechaPago), Double.parseDouble(montoPago));
-            if (clienteController.registrarCliente(cliente)) {
-                JOptionPane.showMessageDialog(this, "Cliente registrado exitosamente.");
-                limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al registrar el cliente.");
+
+            if (fechaPago == null) {
+                JOptionPane.showMessageDialog(this, "La fecha de pago es obligatoria.");
+                return;
+            }
+            try {
+                ClienteDTO cliente = new ClienteDTO(0, cedula, nombre, correo, telefono,
+                        planSeleccionadoDTO.getId(), fechaPago, Double.parseDouble(montoPago));
+
+                if (clienteController.registrarCliente(cliente)) {
+                    JOptionPane.showMessageDialog(this, "Cliente registrado exitosamente.");
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al registrar el cliente.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "El monto de pago debe ser un número válido.");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un plan de membresía.");
@@ -267,7 +285,17 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String cedula = txtCedula.getText();
+        this.clienteBuscar = clienteController.buscarCliente(cedula);
 
+        if (this.clienteBuscar != null) {
+            txtNombre.setText(this.clienteBuscar.getNombre());
+            txtCorreo.setText(this.clienteBuscar.getCorreo());
+            txtTelefono.setText(this.clienteBuscar.getTelefono());
+            JOptionPane.showMessageDialog(this, "Cliente encontrado.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Cliente no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAtrasRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasRegistroActionPerformed
@@ -279,27 +307,63 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAtrasRegistroActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        String cedula = txtCedula.getText();
+        boolean eliminado = clienteController.eliminarCliente(cedula);
+
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "Cliente eliminado con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el Cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        String cedula = txtCedula.getText();
+        String nombre = txtNombre.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+
+        ClienteDTO clienteActualizar = this.clienteBuscar;
+        clienteActualizar.setCedula(cedula);
+        clienteActualizar.setNombre(nombre);
+        clienteActualizar.setCorreo(correo);
+        clienteActualizar.setTelefono(telefono);
+
+        boolean actualizado = clienteController.actualizarCliente(clienteActualizar);
+
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Cliente actualizado con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+        }    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void cbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnModificarActionPerformed
+    }//GEN-LAST:event_cbxActionPerformed
+    // No esta editando el cliente 
 
     /**
      * @param args the command line arguments
      */
     private void cargarPlanesEnComboBox() {
-        List<PlanMembresiaDTO> planes = planMembresiaController.obtenerTodosPlanes();
-        for (PlanMembresiaDTO plan : planes) {
-            comboBoxPlanes.addItem(plan.getNombre()); // Añadir el nombre del plan
+        cbx.removeAllItems();
+        List<PlanMembresiaDTO> listaPlanes = planMembresiaController.obtenerTodosPlanes();
+        if (listaPlanes != null && !listaPlanes.isEmpty()) {
+            cbx.addItem("Seleccionar");
+            for (PlanMembresiaDTO plan : listaPlanes) {
+                cbx.addItem(plan.getNombre());
+            }
+        } else {
+            cbx.addItem("No hay planes disponibles");
         }
     }
-    
-    public void limpiarCampos (){
+
+    public void limpiarCampos() {
         txtCedula.setText("");
         txtCorreo.setText("");
-        txtFechaPago.setText("");
+        jDateFechaPago.setDate(null);
         txtMontoPago.setText("");
         txtNombre.setText("");
         txtTelefono.setText("");
@@ -346,7 +410,9 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JComboBox<String> comboBoxPlanes;
+    private javax.swing.JComboBox<String> cbx;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateFechaPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -357,7 +423,6 @@ public class VentanaRegistroCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtFechaPago;
     private javax.swing.JTextField txtMontoPago;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;

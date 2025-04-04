@@ -246,10 +246,10 @@ public class VentanaRegistroEntrenadores extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String cedula = txtCedula.getText();
         String nombre = txtNombre.getText();
-        String correo = txtCorreo.getText();
+        String email = txtCorreo.getText();
         String telefono = txtTelefono.getText();
 
-        boolean actualizado = entrenadorController.actualizarEntrenador(cedula, nombre, correo, telefono);
+        boolean actualizado = entrenadorController.actualizarEntrenador(cedula, nombre, email, telefono);
 
         if (actualizado) {
             JOptionPane.showMessageDialog(this, "Entrenador actualizado con éxito.");

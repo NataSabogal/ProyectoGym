@@ -8,6 +8,7 @@ import DTO.ClienteDTO;
 import DTO.PlanMembresiaDTO;
 import Repository.ClienteRepository;
 import Repository.PlanMembresiaRepository;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,9 +18,17 @@ import java.util.List;
 public class ClienteService {
 
     private ClienteRepository clienteRepository;
-
+    private PlanMembresiaService planMembresiaService;
+    private List<PlanMembresiaDTO>lista;
+    
     public ClienteService() {
         this.clienteRepository = new ClienteRepository();
+        this.planMembresiaService = new PlanMembresiaService();
+        this.lista = new ArrayList<>();
+    }
+    
+    public List<PlanMembresiaDTO> obtenerPlanes(){
+        return planMembresiaService.obtenerTodosPlanes();
     }
 
     public boolean registrarCliente(ClienteDTO cliente) {

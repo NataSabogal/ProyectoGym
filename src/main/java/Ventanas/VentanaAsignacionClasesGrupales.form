@@ -84,17 +84,15 @@
                               </Group>
                               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cmbHora" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="cmbEntrenador" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtFechaClase" alignment="0" pref="121" max="32767" attributes="0"/>
-                                      <Component id="txtNombreClase" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="txtNombreClase" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cmbEntrenador" alignment="0" pref="121" max="32767" attributes="0"/>
+                                  <Component id="CALENDARIO" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cmbHora" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="btnEliminarGestionEntrenadores" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
+                          <Component id="btnAsignarClaseGrupal" alignment="1" min="-2" pref="170" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="104" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -113,19 +111,24 @@
                           <Component id="txtEspecialidadGestionEntrenadores" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cmbEntrenador" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFechaClase" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="28" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmbHora" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="btnAsignarClaseGrupal" min="-2" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="CALENDARIO" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="26" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmbHora" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="btnEliminarGestionEntrenadores" min="-2" pref="41" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -149,12 +152,12 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombreClase">
             </Component>
-            <Component class="javax.swing.JButton" name="btnEliminarGestionEntrenadores">
+            <Component class="javax.swing.JButton" name="btnAsignarClaseGrupal">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Asignar Entrenador"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarGestionEntrenadoresActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsignarClaseGrupalActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAtrasAdminPagos">
@@ -168,13 +171,12 @@
             <Component class="javax.swing.JComboBox" name="cmbEntrenador">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="Seleccionar"/>
-                    <StringItem index="1" value=" "/>
-                    <StringItem index="2" value=" "/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbEntrenadorActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -187,8 +189,6 @@
                 <Property name="text" type="java.lang.String" value="Fecha de la Clase:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtFechaClase">
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -197,13 +197,12 @@
                 <Property name="text" type="java.lang.String" value="Hora de la Clase:"/>
               </Properties>
             </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="CALENDARIO">
+            </Component>
             <Component class="javax.swing.JComboBox" name="cmbHora">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Seleccionar"/>
-                    <StringItem index="1" value=" "/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
               </Properties>
               <AuxValues>
