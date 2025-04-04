@@ -15,12 +15,17 @@ public class EntrenadorDTO {
     private String correo;
     private String telefono;
 
+    public EntrenadorDTO() {
+    }
+
     public EntrenadorDTO(String cedula, String nombre, String correo, String telefono) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
     }
+
+   
 
     public String getCedula() {
         return cedula;
@@ -52,6 +57,6 @@ public class EntrenadorDTO {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
+    } 
     
 }

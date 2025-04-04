@@ -27,6 +27,10 @@ public class PlanMembresiaService {
     public PlanMembresiaDTO buscarPlan(String nombre) {
         return planMembresiaRepository.buscarPlan(nombre);
     }
+    
+     public PlanMembresiaDTO buscarPlanPorId(Integer idPLan) {
+        return planMembresiaRepository.buscarPlanPorId(idPLan);
+    }
 
     public boolean actualizarPlan(PlanMembresiaDTO plan) {
         return planMembresiaRepository.actualizarPlan(plan);
@@ -36,7 +40,7 @@ public class PlanMembresiaService {
         return planMembresiaRepository.eliminarPlan(nombre);
     }
     
-     public List<PlanMembresiaDTO> obtenerTodosPlanes() {
+    public List<PlanMembresiaDTO> obtenerTodosPlanes() {
         return planMembresiaRepository.obtenerTodosPlanes();
     }
 

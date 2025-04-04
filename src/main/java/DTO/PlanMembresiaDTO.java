@@ -35,7 +35,7 @@ public class PlanMembresiaDTO {
         this.precio = precio;
         this.duracion = duracion;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -74,6 +74,11 @@ public class PlanMembresiaDTO {
 
     public void setDuracion(int duracion) {
         this.duracion = duracion;
+    }
+
+    @Override
+    public String toString() {
+        return this.getNombre();
     }
 
 }

@@ -15,6 +15,7 @@ public class VentanaDashBoard extends javax.swing.JFrame {
      */
     public VentanaDashBoard() {
         initComponents();
+        setLocationRelativeTo(this);
     }
 
     /**

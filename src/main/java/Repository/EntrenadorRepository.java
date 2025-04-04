@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,7 +27,7 @@ public class EntrenadorRepository {
     }
     
     public boolean guardarEntrenador(EntrenadorDTO  entrenador) {
-        String sql = "INSERT INTO entrenador (cedula, nombre, correo, telefono) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO entrenador (cedula, nombre, email, telefono) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, entrenador.getCedula());
             stmt.setString(2, entrenador.getNombre());
@@ -46,7 +49,7 @@ public class EntrenadorRepository {
                 return new EntrenadorDTO(
                     rs.getString("cedula"),
                     rs.getString("nombre"),
-                    rs.getString("correo"),
+                    rs.getString("email"),
                     rs.getString("telefono")
                 );
             }
@@ -57,7 +60,7 @@ public class EntrenadorRepository {
     }
 
     public boolean actualizarEntrenador(EntrenadorDTO entrenador) {
-        String sql = "UPDATE entrenador SET nombre=?, correo=?, telefono=? WHERE cedula=?";
+        String sql = "UPDATE entrenador SET nombre=?, email=?, telefono=? WHERE cedula=?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, entrenador.getNombre());
             stmt.setString(2, entrenador.getCorreo());
@@ -80,4 +83,27 @@ public class EntrenadorRepository {
             return false;
         }
     }
+    
+    
+    public List<EntrenadorDTO> obtenerTodosEntrenadores() {
+    List<EntrenadorDTO> entrenadores = new ArrayList<>();
+    String sql = "SELECT cedula, nombre, email, telefono FROM entrenador"; 
+    
+    try (Statement stmt = connection.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+        
+        while (rs.next()) {
+            String cedula = rs.getString("cedula");
+            String nombre = rs.getString("nombre");
+            String correo = rs.getString("email");
+            String telefono = rs.getString("telefono");
+            
+            EntrenadorDTO entrenador = new EntrenadorDTO(cedula, nombre, correo, telefono);
+            entrenadores.add(entrenador);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return entrenadores;
+}
 }

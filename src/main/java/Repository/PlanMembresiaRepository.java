@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import kotlin.collections.ArrayDeque;
 
 /**
  *
@@ -58,6 +59,27 @@ public class PlanMembresiaRepository {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    //traer todas las menbresias
+    public List<PlanMembresiaDTO> buscarPlan() {
+        String sql = "SELECT * FROM plan_membresia";
+        List <PlanMembresiaDTO> planes = new ArrayDeque<>();
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()){
+            while (rs.next()) {
+                planes.add(new PlanMembresiaDTO(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("descripcion"),
+                        rs.getDouble("precio"),
+                        rs.getInt("duracion")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return planes;
     }
 
     public boolean actualizarPlan(PlanMembresiaDTO plan) {

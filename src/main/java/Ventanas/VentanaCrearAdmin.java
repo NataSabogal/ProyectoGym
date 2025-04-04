@@ -19,6 +19,7 @@ public class VentanaCrearAdmin extends javax.swing.JFrame {
     public VentanaCrearAdmin() {
         initComponents();
         this.setBounds(500, 500, 500, 500);
+        setLocationRelativeTo(this);
     }
 
     /**

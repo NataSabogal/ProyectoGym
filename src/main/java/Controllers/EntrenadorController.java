@@ -6,6 +6,7 @@ package Controllers;
 
 import DTO.EntrenadorDTO;
 import Services.EntrenadorService;
+import java.util.List;
 
 /**
  *
@@ -37,4 +38,7 @@ public class EntrenadorController {
         return entrenadorService.eliminarEntrenador(cedula);
     }
     
+    public List<EntrenadorDTO> obtenerListaEntrenadores(){
+        return entrenadorService.obtenerTodosEntrenadores();
+    }
 }
