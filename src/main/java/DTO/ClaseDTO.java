@@ -4,7 +4,6 @@
  */
 package DTO;
 
-import java.util.Date;
 
 
 
@@ -16,15 +15,15 @@ public class ClaseDTO {
 
     private int id;
     private String nombreClase;
-    private String entrenadorDTO; // No es un String es un objeto
-    private Date fechaClase;
+    private String entrenadorDTO; 
+    private java.sql.Date fechaClase;
     private String horaClase;
 
     public ClaseDTO() {
 
     }
 
-    public ClaseDTO(int id, String nombreClase, String entrenadorDTO, Date fechaClase, String horaClase) {
+    public ClaseDTO(int id, String nombreClase, String entrenadorDTO, java.sql.Date fechaClase, String horaClase) {
         this.id = id;
         this.nombreClase = nombreClase;
         this.entrenadorDTO = entrenadorDTO;
@@ -56,11 +55,11 @@ public class ClaseDTO {
         this.entrenadorDTO = entrenadorDTO;
     }
 
-    public Date getFechaClase() {
+    public java.sql.Date getFechaClase() {
         return fechaClase;
     }
 
-    public void setFechaClase(Date fechaClase) {
+    public void setFechaClase(java.sql.Date fechaClase) {
         this.fechaClase = fechaClase;
     }
 

@@ -27,7 +27,7 @@ public class ClienteRepository {
     }
 
     public boolean guardarCliente(ClienteDTO cliente) {
-        String sql = "INSERT INTO cliente (cedula, nombre, correo, telefono, plan_id, fecha_pago, monto_pago) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente (cedula, nombre, correo, telefono, plan_id, fecha_pago, monto_pago, objetivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cliente.getCedula());
             stmt.setString(2, cliente.getNombre());
@@ -36,6 +36,7 @@ public class ClienteRepository {
             stmt.setInt(5, cliente.getPlanId());
             stmt.setDate(6, cliente.getFechaPago());
             stmt.setDouble(7, cliente.getMontoPago());
+            stmt.setString(8, cliente.getObjetivo());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +58,8 @@ public class ClienteRepository {
                         rs.getString("telefono"),
                         rs.getInt("plan_id"),
                         rs.getDate("fecha_pago"),
-                        rs.getDouble("monto_pago")
+                        rs.getDouble("monto_pago"),
+                        rs.getString("objetivo")
                 );
             }
         } catch (SQLException e) {
@@ -67,7 +69,7 @@ public class ClienteRepository {
     }
 
     public boolean actualizarCliente(ClienteDTO cliente) {
-        String sql = "UPDATE cliente SET nombre = ?, correo = ?, telefono = ?, plan_id = ?, fecha_pago = ?, monto_pago = ? WHERE cedula = ?";
+        String sql = "UPDATE cliente SET nombre = ?, correo = ?, telefono = ?, plan_id = ?, fecha_pago = ?, monto_pago = ?, objetivo = ? WHERE cedula = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cliente.getNombre());
             stmt.setString(2, cliente.getCorreo());
@@ -75,7 +77,8 @@ public class ClienteRepository {
             stmt.setInt(4, cliente.getPlanId());
             stmt.setDate(5, cliente.getFechaPago());
             stmt.setDouble(6, cliente.getMontoPago());
-            stmt.setString(7, cliente.getCedula());
+            stmt.setString(7, cliente.getObjetivo());
+            stmt.setString(8, cliente.getCedula());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,7 +111,8 @@ public class ClienteRepository {
                         rs.getString("telefono"),
                         rs.getInt("plan_id"),
                         rs.getDate("fecha_pago"),
-                        rs.getDouble("monto_pago")
+                        rs.getDouble("monto_pago"),
+                        rs.getString("objetivo")
                 );
                 clientes.add(cliente);
             }

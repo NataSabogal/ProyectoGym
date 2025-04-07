@@ -6,6 +6,8 @@ package Controllers;
 
 import DTO.AsistenciaDTO;
 import Services.AsistenciaService;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -13,17 +15,18 @@ import Services.AsistenciaService;
  */
 public class AsistenciaController {
     
-    private AsistenciaService asistenciaService;
+    private final AsistenciaService asistenciaService;
 
     public AsistenciaController() {
         this.asistenciaService = new AsistenciaService();
     }
-    
-    public AsistenciaService obtenerClientePorCedula(String cedula) {
-        return asistenciaService.obtenerClientePorCedula(cedula);
+
+    public boolean registrarAsistencia(String cedula, LocalDate fecha, LocalTime horaEntrada) {
+        return asistenciaService.registrarAsistencia(cedula, fecha, horaEntrada);
     }
-    
-     public AsistenciaDTO registrarAsistencia(String cedula) {
-         return asistenciaService.registrarAsistencia(cedula);
-     }
+
+    public AsistenciaDTO buscarAsistenciaPorCedula(String cedula) {
+        return asistenciaService.buscarAsistenciaPorCedula(cedula);
+    }
+     
 }

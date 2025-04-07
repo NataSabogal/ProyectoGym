@@ -4,13 +4,12 @@
  */
 package Repository;
 
-import DTO.AdminDTO;
 import DTO.ClaseDTO;
 import database.DatabaseConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import org.mindrot.jbcrypt.BCrypt;
+import java.sql.SQLException;
 
 /**
  *
@@ -22,42 +21,59 @@ public class ClaseRepositorio {
 
     }
 
-   public boolean saveClase(ClaseDTO clase) {
-    String buscarIdSQL = "SELECT id FROM entrenador WHERE cedula = ?";
-    String insertarClaseSQL = "INSERT INTO clase (nombre, entrenador_id, fecha_clase, hora_clase) VALUES (?, ?, ?, ?)";
+    public boolean saveClase(ClaseDTO clase) {
+        String buscarClaseSQL = "SELECT id FROM clase WHERE nombre = ?";
+        String insertarClaseSQL = "INSERT INTO clase (nombre, descripcion) VALUES (?, ?)";
+        String buscarEntrenadorSQL = "SELECT id FROM entrenador WHERE cedula = ?";
+        String insertarHorarioSQL = "INSERT INTO horario_clase (clase_id, entrenador_id, fecha, hora) VALUES (?, ?, ?, ?)";
 
-    try (Connection conn = DatabaseConfig.getConnection();
-         PreparedStatement buscarStmt = conn.prepareStatement(buscarIdSQL);
-         PreparedStatement insertarStmt = conn.prepareStatement(insertarClaseSQL)) {
+        try (Connection conn = DatabaseConfig.getConnection(); PreparedStatement buscarClaseStmt = conn.prepareStatement(buscarClaseSQL); PreparedStatement insertarClaseStmt = conn.prepareStatement(insertarClaseSQL, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement buscarEntrenadorStmt = conn.prepareStatement(buscarEntrenadorSQL); PreparedStatement insertarHorarioStmt = conn.prepareStatement(insertarHorarioSQL)) {
 
-        // Buscar ID del entrenador por la cédula
-        buscarStmt.setString(1, clase.getEntrenadorDTO());  
-        ResultSet rs = buscarStmt.executeQuery();
+            // Verificar si la clase ya existe
+            buscarClaseStmt.setString(1, clase.getNombreClase());
+            ResultSet claseRs = buscarClaseStmt.executeQuery();
 
-        if (rs.next()) {
-            int idEntrenador = rs.getInt("id"); 
+            int claseId;
+            if (claseRs.next()) {
+                claseId = claseRs.getInt("id"); // Obtener el ID de la clase existente
+            } else {
+                // Insertar nueva clase
+                insertarClaseStmt.setString(1, clase.getNombreClase());
+                insertarClaseStmt.setString(2, "Descripción predeterminada"); // Cambia si tienes un campo para descripción
+                insertarClaseStmt.setDate(3, clase.getFechaClase());
+                insertarClaseStmt.executeUpdate();
 
-            // Conversión de java.util.Date a java.sql.Date
-            java.sql.Date fechaSQL = new java.sql.Date(clase.getFechaClase().getTime());
+                // Obtener el ID generado
+                ResultSet generatedKeys = insertarClaseStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    claseId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("No se pudo obtener el ID de la nueva clase.");
+                }
+            }
 
-            // Insertar la clase con el ID obtenido
-            insertarStmt.setString(1, clase.getNombreClase());
-            insertarStmt.setInt(2, idEntrenador);
-            insertarStmt.setDate(3, fechaSQL); // Conversión aplicada aquí
-            insertarStmt.setString(4, clase.getHoraClase());
+            // Buscar el ID del entrenador
+            buscarEntrenadorStmt.setString(1, clase.getEntrenadorDTO());
+            ResultSet entrenadorRs = buscarEntrenadorStmt.executeQuery();
 
-            int rowsInserted = insertarStmt.executeUpdate();
+            if (!entrenadorRs.next()) {
+                System.out.println("No se encontró un entrenador con la cédula proporcionada.");
+                return false;
+            }
+            int entrenadorId = entrenadorRs.getInt("id");
+
+            // Insertar el horario en la tabla horario_clase
+            insertarHorarioStmt.setInt(1, claseId);
+            insertarHorarioStmt.setInt(2, entrenadorId);
+            insertarHorarioStmt.setDate(3, clase.getFechaClase());
+            insertarHorarioStmt.setString(4, clase.getHoraClase());
+
+            int rowsInserted = insertarHorarioStmt.executeUpdate();
             return rowsInserted > 0;
-        } else {
-            System.out.println("No se encontró un entrenador con la cédula proporcionada.");
+
+        } catch (SQLException e) {
+            System.err.println("Error SQL: " + e.getMessage());
             return false;
         }
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
     }
-}
-
-
 }

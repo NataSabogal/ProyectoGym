@@ -5,7 +5,6 @@
 package DTO;
 
 import java.sql.Date;
-import java.util.Objects;
 
 /**
  *
@@ -21,12 +20,12 @@ public class ClienteDTO {
     private int planId;
     private Date fechaPago;
     private double montoPago;
-    
-    public ClienteDTO(){
-        
+    private String objetivo; 
+
+    public ClienteDTO() {
     }
 
-    public ClienteDTO(int id, String cedula, String nombre, String correo, String telefono, int planId, Date fechaPago, double montoPago) {
+    public ClienteDTO(int id, String cedula, String nombre, String correo, String telefono, int planId, Date fechaPago, double montoPago, String objetivo) {
         this.id = id;
         this.cedula = cedula;
         this.nombre = nombre;
@@ -35,10 +34,11 @@ public class ClienteDTO {
         this.planId = planId;
         this.fechaPago = fechaPago;
         this.montoPago = montoPago;
+        this.objetivo = objetivo;
     }
-    
-    public ClienteDTO(String cedula, String nombre, String correo, String telefono, int planId, Date fechaPago, double montoPago) {
-        this(0, cedula, nombre, correo, telefono, planId, fechaPago, montoPago);
+
+    public ClienteDTO(String cedula, String nombre, String correo, String telefono, int planId, Date fechaPago, double montoPago, String objetivo) {
+        this(0, cedula, nombre, correo, telefono, planId, fechaPago, montoPago, objetivo);
     }
 
     public int getId() {
@@ -105,11 +105,27 @@ public class ClienteDTO {
         this.montoPago = montoPago;
     }
 
-    @Override
-    public String toString() {
-        return "ClienteDTO{" + "id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", correo=" + correo + ", telefono=" + telefono + ", planId=" + planId + ", fechaPago=" + fechaPago + ", montoPago=" + montoPago + '}';
+    public String getObjetivo() {
+        return objetivo;
     }
 
-   
-    
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    @Override
+    public String toString() {
+        return "ClienteDTO{"
+                + "id=" + id
+                + ", cedula='" + cedula + '\''
+                + ", nombre='" + nombre + '\''
+                + ", correo='" + correo + '\''
+                + ", telefono='" + telefono + '\''
+                + ", planId=" + planId
+                + ", fechaPago=" + fechaPago
+                + ", montoPago=" + montoPago
+                + ", objetivo='" + objetivo + '\''
+                + '}';
+    }
+
 }
