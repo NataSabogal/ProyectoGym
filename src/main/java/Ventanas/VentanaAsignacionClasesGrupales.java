@@ -18,22 +18,20 @@ import javax.swing.JOptionPane;
  * @author bran-
  */
 public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
-    
+
     private ClaseController controladorClase;
     private EntrenadorController controlador;
-    
-    
-    
+
     /**
      * Creates new form VentanaGestionEntrenadores
      */
     public VentanaAsignacionClasesGrupales() {
-        
+
         initComponents();
         controladorClase = new ClaseController();
         this.cargarHorasComboBox();
         controlador = new EntrenadorController();
-       this.cargarEntrenadoresEnComboBox();
+        this.cargarEntrenadoresEnComboBox();
     }
 
     /**
@@ -177,22 +175,36 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAsignarClaseGrupalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarClaseGrupalActionPerformed
-        
         String nombreClase = txtNombreClase.getText();
-        String entrenador  = (String) cmbEntrenador.getSelectedItem();
-        Date fechaClase = (Date) CALENDARIO.getDate();
+        String entrenadorCedula = (String) cmbEntrenador.getSelectedItem();
+        Object fechaClase = CALENDARIO.getDate(); // Obtenemos la fecha como Object o java.util.Date
         String horaClase = (String) cmbHora.getSelectedItem();
-        
-        ClaseDTO clase = new ClaseDTO(0, nombreClase, entrenador, fechaClase, horaClase);
-        
+
+        // Validar que los campos no estén vacíos
+        if (nombreClase.isEmpty() || entrenadorCedula == null || fechaClase == null || horaClase == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Convertir java.util.Date a java.sql.Date
+        java.sql.Date fechaClaseSQL = new java.sql.Date(((Date) fechaClase).getTime());
+
+        // Crear objeto ClaseDTO
+        ClaseDTO clase = new ClaseDTO();
+        clase.setNombreClase(nombreClase);
+        clase.setFechaClase(fechaClaseSQL);
+        clase.setHoraClase(horaClase);
+        clase.setEntrenadorDTO(entrenadorCedula);
+
+        // Intentar registrar la clase grupal
         boolean registrado = controladorClase.registrarClase(clase);
         if (registrado) {
-            JOptionPane.showMessageDialog(this, "Clase registrada con éxito.");
-//            limpiarCampos();
+            JOptionPane.showMessageDialog(this, "Clase grupal registrada con éxito.");
+            limpiarCampos(); // Limpia los campos del formulario
         } else {
-            JOptionPane.showMessageDialog(this, "Error al registrar la clase.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al registrar la clase grupal. Verifica los datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnAsignarClaseGrupalActionPerformed
 
     private void btnAtrasAdminPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasAdminPagosActionPerformed
@@ -209,19 +221,24 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-    private void cargarHorasComboBox(){
+    public void limpiarCampos() {
+        txtNombreClase.setText("");
+        cmbEntrenador.setSelectedIndex(0);
+        CALENDARIO.setDate(null);
+        cmbHora.setSelectedIndex(0);
+    }
+
+    private void cargarHorasComboBox() {
         cmbHora.removeAllItems();
         int horasAlDia = 12; // son 12 horas de clase
         int horaInicio = 7; //inicia a las 7am
-        for (int i = horaInicio; i <= (horasAlDia+horaInicio); i++) {
+        for (int i = horaInicio; i <= (horasAlDia + horaInicio); i++) {
             LocalTime localTime = LocalTime.of(i, 0);
             cmbHora.addItem(localTime.toString());
         }
     }
-  
 
-    private void cargarEntrenadoresEnComboBox() { // Esta trayendo String y no el objeto
+    private void cargarEntrenadoresEnComboBox() {
         cmbEntrenador.removeAllItems();
         List<EntrenadorDTO> listaEntrenadores = controlador.obtenerListaEntrenadores();
         if (listaEntrenadores != null && !listaEntrenadores.isEmpty()) {
@@ -233,6 +250,7 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
             cmbEntrenador.addItem("No hay Entrenadores disponibles");
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

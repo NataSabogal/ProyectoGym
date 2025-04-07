@@ -33,7 +33,8 @@ public class AdminPagoRepository {
                         rs.getString("telefono"),
                         rs.getInt("plan_id"),
                         rs.getDate("fecha_pago"),
-                        rs.getDouble("monto_pago")
+                        rs.getDouble("monto_pago"),
+                        rs.getString("objetivo")
                 );
             }
         } catch (SQLException e) {

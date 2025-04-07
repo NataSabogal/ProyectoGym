@@ -5,6 +5,9 @@
 package Ventanas;
 
 import Controllers.AsistenciaController;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,13 +16,13 @@ import Controllers.AsistenciaController;
 public class VentanaControlDeAsistencia extends javax.swing.JFrame {
 
     AsistenciaController controlador;
-    
+
     /**
      * Creates new form VentanaControlDeAsistencia
      */
     public VentanaControlDeAsistencia() {
         initComponents();
-        this.controlador = controlador;
+        controlador = new AsistenciaController();
     }
 
     /**
@@ -140,9 +143,23 @@ public class VentanaControlDeAsistencia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQRActionPerformed
 
     private void btnRegistroAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroAsistenciaActionPerformed
-           String cedula = txtCedula.getText();
-           controlador.registrarAsistencia(cedula);
-        
+        String cedula = txtCedula.getText();
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa la cédula del cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        LocalDate fechaActual = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+
+        boolean registrado = controlador.registrarAsistencia(cedula, fechaActual, horaActual);
+
+        if (registrado) {
+            JOptionPane.showMessageDialog(this, "Asistencia registrada con éxito.");
+            txtCedula.setText(""); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar la asistencia. Por favor, verifica la cédula.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnRegistroAsistenciaActionPerformed
 
     private void btnAtrasControlAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasControlAsistenciaActionPerformed

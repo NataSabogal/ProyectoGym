@@ -14,7 +14,7 @@ import java.util.List;
  * @author nataliasabogalrada
  */
 public class PlanMembresiaController {
-    
+
     private PlanMembresiaService planMembresiaService;
 
     public PlanMembresiaController() {
@@ -28,8 +28,9 @@ public class PlanMembresiaController {
 
     public PlanMembresiaDTO buscarPlan(String nombre) {
         return planMembresiaService.buscarPlan(nombre);
+
     }
-    
+
     public PlanMembresiaDTO buscarPlanPorId(Integer idPlan) {
         return planMembresiaService.buscarPlanPorId(idPlan);
     }
@@ -42,17 +43,26 @@ public class PlanMembresiaController {
     public boolean eliminarPlan(String nombre) {
         return planMembresiaService.eliminarPlan(nombre);
     }
-    
+
     public List<PlanMembresiaDTO> obtenerTodosPlanes() {
         return planMembresiaService.obtenerTodosPlanes();
     }
-    
+
     public List<String> obtenerNombresPlanes() {
-    List<PlanMembresiaDTO> planes = planMembresiaService.obtenerTodosPlanes();
-    List<String> nombresPlanes = new ArrayList<>();
-    for (PlanMembresiaDTO plan : planes) {
-        nombresPlanes.add(plan.getNombre());
+        List<PlanMembresiaDTO> planes = planMembresiaService.obtenerTodosPlanes();
+        List<String> nombresPlanes = new ArrayList<>();
+        for (PlanMembresiaDTO plan : planes) {
+            nombresPlanes.add(plan.getNombre());
+        }
+        return nombresPlanes;
     }
-    return nombresPlanes;
-}
+
+    public List<String> obtenerDescripcionesPlanes() {
+        List<PlanMembresiaDTO> planes = planMembresiaService.obtenerTodosPlanes();
+        List<String> descripcionesPlanes = new ArrayList<>();
+        for (PlanMembresiaDTO plan : planes) {
+            descripcionesPlanes.add(plan.getDescripcion()); 
+        }
+        return descripcionesPlanes;
+    }
 }

@@ -5,26 +5,28 @@
 package Services;
 
 import DTO.AsistenciaDTO;
+import Repository.AsistenciaRepository;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
  * @author bran-
  */
 public class AsistenciaService {
-
-    private AsistenciaService asistenciaService;
+    
+    private final AsistenciaRepository asistenciaRepository;
 
     public AsistenciaService() {
-        this.asistenciaService = new AsistenciaService();
-
+        this.asistenciaRepository = new AsistenciaRepository();
     }
 
-    public AsistenciaService obtenerClientePorCedula(String cedula) {
-        return asistenciaService.obtenerClientePorCedula(cedula);
+    public boolean registrarAsistencia(String cedula, LocalDate fecha, LocalTime horaEntrada) {
+        return asistenciaRepository.saveAsistencia(cedula, fecha, horaEntrada);
     }
 
-    public AsistenciaDTO registrarAsistencia(String cedula) {
-        return asistenciaService.registrarAsistencia(cedula);
+    public AsistenciaDTO buscarAsistenciaPorCedula(String cedula) {
+        return asistenciaRepository.buscarAsistenciaPorCedula(cedula);
     }
 
 }

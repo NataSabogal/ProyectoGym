@@ -27,7 +27,7 @@ public class EntrenadorRepository {
     }
     
     public boolean guardarEntrenador(EntrenadorDTO  entrenador) {
-        String sql = "INSERT INTO entrenador (cedula, nombre, email, telefono) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO entrenador (cedula, nombre, correo, telefono) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, entrenador.getCedula());
             stmt.setString(2, entrenador.getNombre());
@@ -49,7 +49,7 @@ public class EntrenadorRepository {
                 return new EntrenadorDTO(
                     rs.getString("cedula"),
                     rs.getString("nombre"),
-                    rs.getString("email"),
+                    rs.getString("correo"),
                     rs.getString("telefono")
                 );
             }
@@ -60,12 +60,12 @@ public class EntrenadorRepository {
     }
 
     public boolean actualizarEntrenador(EntrenadorDTO entrenador) {
-        String sql = "UPDATE entrenador SET nombre=?, email=?, telefono=? WHERE cedula=?";
+        String sql = "UPDATE entrenador SET nombre=?, correo=?, telefono=? WHERE cedula=?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, entrenador.getNombre());
             stmt.setString(2, entrenador.getCorreo());
             stmt.setString(3, entrenador.getTelefono());
-            stmt.setString(5, entrenador.getCedula());
+            stmt.setString(4, entrenador.getCedula());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class EntrenadorRepository {
     
     public List<EntrenadorDTO> obtenerTodosEntrenadores() {
     List<EntrenadorDTO> entrenadores = new ArrayList<>();
-    String sql = "SELECT cedula, nombre, email, telefono FROM entrenador"; 
+    String sql = "SELECT cedula, nombre, correo, telefono FROM entrenador"; 
     
     try (Statement stmt = connection.createStatement();
          ResultSet rs = stmt.executeQuery(sql)) {
@@ -95,7 +95,7 @@ public class EntrenadorRepository {
         while (rs.next()) {
             String cedula = rs.getString("cedula");
             String nombre = rs.getString("nombre");
-            String correo = rs.getString("email");
+            String correo = rs.getString("correo");
             String telefono = rs.getString("telefono");
             
             EntrenadorDTO entrenador = new EntrenadorDTO(cedula, nombre, correo, telefono);
