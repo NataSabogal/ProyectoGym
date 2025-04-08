@@ -12,6 +12,8 @@ import java.sql.Date;
 import java.time.LocalTime;
 import java.util.List;
 import javax.swing.JOptionPane;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -21,6 +23,7 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
 
     private ClaseController controladorClase;
     private EntrenadorController controlador;
+    private Map<String, String> mapaNombreCedula = new HashMap<>();
 
     /**
      * Creates new form VentanaGestionEntrenadores
@@ -176,8 +179,9 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
 
     private void btnAsignarClaseGrupalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarClaseGrupalActionPerformed
         String nombreClase = txtNombreClase.getText();
-        String entrenadorCedula = (String) cmbEntrenador.getSelectedItem();
-        Object fechaClase = CALENDARIO.getDate(); // Obtenemos la fecha como Object o java.util.Date
+        String nombreEntrenador = (String) cmbEntrenador.getSelectedItem();
+        String entrenadorCedula = mapaNombreCedula.get(nombreEntrenador);
+        java.util.Date fechaClase = CALENDARIO.getDate();
         String horaClase = (String) cmbHora.getSelectedItem();
 
         // Validar que los campos no estén vacíos
@@ -187,14 +191,15 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
         }
 
         // Convertir java.util.Date a java.sql.Date
-        java.sql.Date fechaClaseSQL = new java.sql.Date(((Date) fechaClase).getTime());
+        java.util.Date fechaUtil = (java.util.Date) fechaClase;
+        java.sql.Date fechaClaseSQL = new java.sql.Date(fechaUtil.getTime());
 
         // Crear objeto ClaseDTO
         ClaseDTO clase = new ClaseDTO();
         clase.setNombreClase(nombreClase);
         clase.setFechaClase(fechaClaseSQL);
         clase.setHoraClase(horaClase);
-        clase.setEntrenadorDTO(entrenadorCedula);
+        clase.setCedulaEntrenador(entrenadorCedula);
 
         // Intentar registrar la clase grupal
         boolean registrado = controladorClase.registrarClase(clase);
@@ -240,11 +245,17 @@ public class VentanaAsignacionClasesGrupales extends javax.swing.JFrame {
 
     private void cargarEntrenadoresEnComboBox() {
         cmbEntrenador.removeAllItems();
+        mapaNombreCedula.clear(); // limpiamos el mapa
+
         List<EntrenadorDTO> listaEntrenadores = controlador.obtenerListaEntrenadores();
         if (listaEntrenadores != null && !listaEntrenadores.isEmpty()) {
             cmbEntrenador.addItem("Seleccionar");
             for (EntrenadorDTO entrenador : listaEntrenadores) {
-                cmbEntrenador.addItem(entrenador.getNombre());
+                String nombre = entrenador.getNombre();
+                String cedula = entrenador.getCedula();
+
+                cmbEntrenador.addItem(nombre); // solo el nombre se ve
+                mapaNombreCedula.put(nombre, cedula); // guardamos cédula asociada al nombre
             }
         } else {
             cmbEntrenador.addItem("No hay Entrenadores disponibles");

@@ -10,7 +10,7 @@ package DTO;
  */
 public class AdminDTO {
     
-     private String cedula;
+    private String cedula;
     private String nombre;
     private String password;
 
