@@ -1,32 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
+import java.sql.Date;
 
-
-
-/**
- *
- * @author bran-
- */
 public class ClaseDTO {
 
     private int id;
     private String nombreClase;
-    private String entrenadorDTO; 
-    private java.sql.Date fechaClase;
+    private String cedulaEntrenador;
+    private Date fechaClase;
     private String horaClase;
 
     public ClaseDTO() {
-
     }
 
-    public ClaseDTO(int id, String nombreClase, String entrenadorDTO, java.sql.Date fechaClase, String horaClase) {
+    public ClaseDTO(int id, String nombreClase, String cedulaEntrenador, Date fechaClase, String horaClase) {
         this.id = id;
         this.nombreClase = nombreClase;
-        this.entrenadorDTO = entrenadorDTO;
+        this.cedulaEntrenador = cedulaEntrenador;
         this.fechaClase = fechaClase;
         this.horaClase = horaClase;
     }
@@ -47,19 +37,19 @@ public class ClaseDTO {
         this.nombreClase = nombreClase;
     }
 
-    public String getEntrenadorDTO() {
-        return entrenadorDTO;
+    public String getCedulaEntrenador() {
+        return cedulaEntrenador;
     }
 
-    public void setEntrenadorDTO(String entrenadorDTO) {
-        this.entrenadorDTO = entrenadorDTO;
+    public void setCedulaEntrenador(String entrenadorDTO) {
+        this.cedulaEntrenador = entrenadorDTO;
     }
 
-    public java.sql.Date getFechaClase() {
+    public Date getFechaClase() {
         return fechaClase;
     }
 
-    public void setFechaClase(java.sql.Date fechaClase) {
+    public void setFechaClase(Date fechaClase) {
         this.fechaClase = fechaClase;
     }
 
@@ -70,7 +60,4 @@ public class ClaseDTO {
     public void setHoraClase(String horaClase) {
         this.horaClase = horaClase;
     }
-   
 }
-
-

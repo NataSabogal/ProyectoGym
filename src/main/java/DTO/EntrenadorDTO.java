@@ -25,8 +25,6 @@ public class EntrenadorDTO {
         this.telefono = telefono;
     }
 
-   
-
     public String getCedula() {
         return cedula;
     }
