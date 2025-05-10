@@ -4,6 +4,10 @@
  */
 package Ventanas;
 
+import Controllers.PlanMembresiaController;
+import DTO.PlanMembresiaDTO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author bran-
@@ -13,9 +17,12 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
     /**
      * Creates new form VentanaPlanesMembresia
      */
+    private PlanMembresiaController planMembresiaController;
+
     public VentanaPlanesMembresia() {
         initComponents();
-        this.setBounds(500, 500, 500, 500);
+        this.setBounds(380, 500, 380, 500);
+        planMembresiaController = new PlanMembresiaController();
     }
 
     /**
@@ -28,54 +35,73 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtTipoPlan = new javax.swing.JLabel();
-        txtValorPlanes = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        txtNombreUsuarioPlanesMembresia = new javax.swing.JTextField();
-        cbPlanesMembresia = new javax.swing.JComboBox<>();
-        btnDetallesPlanes = new javax.swing.JButton();
+        lblN = new javax.swing.JLabel();
+        lblDes = new javax.swing.JLabel();
+        txtDescripcion = new javax.swing.JTextField();
         btnAgregarPlanes = new javax.swing.JButton();
-        btnModificarPlan = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         btnEliminarPlan = new javax.swing.JButton();
-        btnAtrasPlanesMembresia = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        txtDuracion = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        btnAtrasControlAsistencia = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Planes Membresia", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Shree Devanagari 714", 0, 18))); // NOI18N
 
-        txtTipoPlan.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
-        txtTipoPlan.setText("Tipo Plan ");
+        lblN.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
+        lblN.setText("Nombre:");
 
-        txtValorPlanes.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
-        txtValorPlanes.setText("Valor :");
+        lblDes.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
+        lblDes.setText("Descripción:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
-        txtNombreUsuarioPlanesMembresia.setEditable(false);
-        txtNombreUsuarioPlanesMembresia.setText("Nombre de la Persona");
-
-        cbPlanesMembresia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Mensual", "Quincenal", "Anual" }));
-
-        btnDetallesPlanes.setText("Detalles Plan");
-        btnDetallesPlanes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDetallesPlanesActionPerformed(evt);
+                txtDescripcionActionPerformed(evt);
             }
         });
 
         btnAgregarPlanes.setText("Agregar Plan");
+        btnAgregarPlanes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPlanesActionPerformed(evt);
+            }
+        });
 
-        btnModificarPlan.setText("Modificar Plan");
+        btnEditar.setText("Editar Plan");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminarPlan.setText("Eliminar Plan");
-
-        btnAtrasPlanesMembresia.setText("⤺");
-        btnAtrasPlanesMembresia.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarPlan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtrasPlanesMembresiaActionPerformed(evt);
+                btnEliminarPlanActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
+        jLabel1.setText("Precio:");
+
+        jLabel2.setFont(new java.awt.Font("Shree Devanagari 714", 1, 14)); // NOI18N
+        jLabel2.setText("Duración:");
+
+        btnBuscar.setText("Buscar Plan");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnAtrasControlAsistencia.setText("⤺");
+        btnAtrasControlAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasControlAsistenciaActionPerformed(evt);
             }
         });
 
@@ -83,56 +109,68 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtNombreUsuarioPlanesMembresia, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                        .addGap(138, 138, 138)
-                        .addComponent(btnAtrasPlanesMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtValorPlanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtTipoPlan, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbPlanesMembresia, 0, 132, Short.MAX_VALUE)
-                            .addComponent(jTextField2))
-                        .addGap(89, 89, 89))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(139, 139, 139)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblDes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnEliminarPlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDetallesPlanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAgregarPlanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnModificarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(txtNombre)
+                    .addComponent(txtPrecio)
+                    .addComponent(txtDuracion))
+                .addGap(84, 84, 84))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnEliminarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnAtrasControlAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(btnAtrasControlAsistencia)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAtrasPlanesMembresia)
-                    .addComponent(txtNombreUsuarioPlanesMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTipoPlan)
-                    .addComponent(cbPlanesMembresia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblN)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtValorPlanes)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(btnDetallesPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDes)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 53, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnAgregarPlanes, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnModificarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEliminarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminarPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,36 +187,92 @@ public class VentanaPlanesMembresia extends javax.swing.JFrame {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtDescripcionActionPerformed
 
-    private void btnAtrasPlanesMembresiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasPlanesMembresiaActionPerformed
+    private void btnAtrasControlAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasControlAsistenciaActionPerformed
         VentanaDashBoard panel = new VentanaDashBoard();
         panel.setVisible(true);
         panel.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_btnAtrasPlanesMembresiaActionPerformed
 
-    private void btnDetallesPlanesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesPlanesActionPerformed
-        VentanaDetallesMembresia details = new VentanaDetallesMembresia();
-        details.setVisible(true);
-        details.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_btnDetallesPlanesActionPerformed
+    }//GEN-LAST:event_btnAtrasControlAsistenciaActionPerformed
 
+    private void btnAgregarPlanesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPlanesActionPerformed
+        String nombre = txtNombre.getText();
+        String descripcion = txtDescripcion.getText();
+        double precio = Double.parseDouble(txtPrecio.getText());
+        int duracion = Integer.parseInt(txtDuracion.getText());
+        boolean registrado = planMembresiaController.crearPlanMembresia(nombre, descripcion, precio, duracion);
+        if (registrado) {
+            JOptionPane.showMessageDialog(this, "Plan de membresía registrado");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar el plan.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAgregarPlanesActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String nombre = txtNombre.getText();
+        PlanMembresiaDTO plan = planMembresiaController.buscarPlan(nombre);
+        if (plan != null) {
+            txtDescripcion.setText(plan.getDescripcion());
+            txtPrecio.setText(String.valueOf(plan.getPrecio()));
+            txtDuracion.setText(String.valueOf(plan.getDuracion()));
+            JOptionPane.showMessageDialog(this, "Plan encontrado");
+        } else {
+            JOptionPane.showMessageDialog(this, "Plan no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        String nombre = txtNombre.getText();
+        String descripcion = txtDescripcion.getText();
+        double precio = Double.parseDouble(txtPrecio.getText());
+        int duracion = Integer.parseInt(txtDuracion.getText());
+        boolean actualizado = planMembresiaController.actualizarPlan(nombre, descripcion, precio, duracion);
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Plan de membresía actualizado ");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el plan", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPlanActionPerformed
+         String nombre = txtNombre.getText();
+        boolean eliminado = planMembresiaController.eliminarPlan(nombre);
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "Plan eliminado con éxito.");
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el plan.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarPlanActionPerformed
+
+    public void limpiarCampos (){
+       txtDescripcion.setText("");
+       txtDuracion.setText("");
+       txtNombre.setText("");
+       txtPrecio.setText("");
+       
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarPlanes;
-    private javax.swing.JButton btnAtrasPlanesMembresia;
-    private javax.swing.JButton btnDetallesPlanes;
+    private javax.swing.JButton btnAtrasControlAsistencia;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminarPlan;
-    private javax.swing.JButton btnModificarPlan;
-    private javax.swing.JComboBox<String> cbPlanesMembresia;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField txtNombreUsuarioPlanesMembresia;
-    private javax.swing.JLabel txtTipoPlan;
-    private javax.swing.JLabel txtValorPlanes;
+    private javax.swing.JLabel lblDes;
+    private javax.swing.JLabel lblN;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtDuracion;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }
